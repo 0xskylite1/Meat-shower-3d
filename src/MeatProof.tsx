@@ -62,7 +62,7 @@ function Human({ pos, rotY = 0, torso = "#8a5a38", skirtColor, hat = "none", hai
 }) {
   const frame = useCurrentFrame();
   const stir = armMode === "stir";
-  const armR = stir ? -0.85 + Math.sin(frame * 0.16) * 0.28 : armMode === "hold" ? -0.55 : 0.1 + Math.sin(frame * 0.03 + pos[0]) * 0.04;
+  const armR = stir ? -1.05 + Math.sin(frame * 0.16) * 0.3 : armMode === "hold" ? -0.55 : 0.1 + Math.sin(frame * 0.03 + pos[0]) * 0.04;
   const armL = stir ? -0.45 + Math.cos(frame * 0.16) * 0.18 : armMode === "hold" ? -0.55 : 0.1;
   return (
     <group position={pos} rotation={[0, rotY, 0]}>
@@ -72,8 +72,8 @@ function Human({ pos, rotY = 0, torso = "#8a5a38", skirtColor, hat = "none", hai
             <cylinderGeometry args={[0.30, 0.56, 0.96, 14]} />
             <meshStandardMaterial color={skirtColor} roughness={0.9} />
           </mesh>
-          <mesh position={[0, 0.52, 0.335]} rotation={[0.06, 0, 0]}>
-            <boxGeometry args={[0.36, 0.58, 0.03]} />
+          <mesh position={[0, 0.58, 0.37]} rotation={[0.13, 0, 0]}>
+            <boxGeometry args={[0.36, 0.5, 0.03]} />
             <meshStandardMaterial color="#e8e0cc" roughness={0.9} />
           </mesh>
         </>
@@ -289,8 +289,8 @@ function Rig() {
     look = [-0.7, 1.25, -1.9];
   } else {
     const u = smooth((frame - 241) / 88);
-    pos = [lerp(0.9, 0.35, u), lerp(2.05, 1.85, u), lerp(3.6, 2.75, u)];
-    look = [-2.45, 1.3, -0.95];
+    pos = [lerp(0.9, 0.3, u), lerp(2.15, 2.0, u), lerp(3.6, 2.95, u)];
+    look = [-2.35, 1.25, -0.6];
   }
   camera.position.set(pos[0], pos[1], pos[2]);
   camera.lookAt(look[0], look[1], look[2]);
@@ -307,8 +307,9 @@ function Scene() {
     <>
       <color attach="background" args={["#8fc3ea"]} />
       <fog attach="fog" args={["#a9cdec", 22, 48]} />
-      <hemisphereLight args={["#bcd8f2", "#6d7c46", 0.55]} />
-      <directionalLight position={[7, 13, 8]} intensity={1.55} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-13} shadow-camera-right={13} shadow-camera-top={13} shadow-camera-bottom={-13} />
+      <hemisphereLight args={["#cfe6fa", "#7d8c52", 1.0]} />
+      <directionalLight position={[7, 13, 8]} intensity={2.1} castShadow shadow-mapSize={[2048, 2048]} shadow-camera-left={-13} shadow-camera-right={13} shadow-camera-top={13} shadow-camera-bottom={-13} />
+      <directionalLight position={[-6, 8, 11]} intensity={0.6} />
       <Rig />
       <FarmSet />
       {/* the first single chunk at "rained" */}
@@ -321,7 +322,7 @@ function Scene() {
       {frame >= 241 && (
         <group>
           <Human pos={[-2.15, 0.18, -0.85]} rotY={0.5} torso="#7a4a56" skirtColor="#7a4a56" hair="#4a3428" armMode="stir" />
-          <Kettle pos={[-3.05, 0.18, -0.35]} />
+          <Kettle pos={[-2.5, 0.18, -0.08]} />
           <Rain start={porchRain} count={10} seed={31} area={[-5, 0.6, -2.6, 0.6]} />
         </group>
       )}
@@ -362,7 +363,7 @@ export const MeatProof = () => {
   const { width, height } = { width: 1080, height: 1920 };
   return (
     <AbsoluteFill style={{ backgroundColor: "#8fc3ea" }}>
-      <ThreeCanvas shadows linear width={width} height={height} camera={{ fov: 55, position: [0, 3.6, 13.2] }}>
+      <ThreeCanvas shadows width={width} height={height} camera={{ fov: 55, position: [0, 3.6, 13.2] }}>
         <Scene />
       </ThreeCanvas>
       <Captions />
